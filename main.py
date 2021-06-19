@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from database import *
-from os import path
+from utils import *
 app = FastAPI()
 
 
@@ -16,10 +16,17 @@ async def get_image(id: int):
     print(path)
     return FileResponse(path)
 
-@app.post("/image/")
-async def post_image(label: str, format: str, image):
-    upload(label)
+@app.get("/images/{label}/{id}")
+async def get_image(label: str, id: int):
+    local_path = get(id)
+    path = f"images/{local_path}"
+    return FileResponse(path)
+
+@app.post("/imagee/{label}/")
+async def post_image(label: str, image: str):
+    path = f"images/{label}/dog.png"
+    print(path)
+    to_png(path, image)
+    upload(label, f"{label}/dog.png")
     return {"result": "Positive"}
-
-
 

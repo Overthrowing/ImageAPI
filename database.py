@@ -11,8 +11,8 @@ db.commit()
 
 session.execute("INSERT INTO images VALUES (:label, :image_path)", {"label": "dog", "image_path": "dog/dog.jpg"})
 
-def upload(label):
-    session.execute("INSERT INTO images VALUES (:label, :image_path)", {"label": label, "image_path": "path"})
+def upload(label, path):
+    session.execute("INSERT INTO images VALUES (:label, :path)", {"label": label, "path": path})
     db.commit()
 
 def get(id):
