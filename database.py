@@ -19,3 +19,8 @@ def get(id):
     session.execute(f"SELECT * FROM images WHERE rowid == {id}")
     local_path = session.fetchone()[1]
     return local_path
+
+def get_by_label(label, id):
+    session.execute(f"SELECT * FROM images WHERE label == {label}")
+    images = session.fetchall()
+    return images[id][1]

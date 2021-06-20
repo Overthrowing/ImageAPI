@@ -17,14 +17,14 @@ async def get_image(id: int):
     return FileResponse(path)
 
 @app.get("/images/{label}/{id}")
-async def get_image(label: str, id: int):
+async def get_image_by_label(label: str, id: int):
     local_path = get(id)
     path = f"images/{local_path}"
     return FileResponse(path)
 
-@app.post("/imagee/{label}/")
-async def post_image(label: str, image: str):
-    path = f"images/{label}/dog.png"
+@app.post("/image/{label}/")
+async def post_image(label: str, name: str, image: str):
+    path = f"images/name.png"
     print(path)
     to_png(path, image)
     upload(label, f"{label}/dog.png")
