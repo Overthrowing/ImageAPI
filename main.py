@@ -18,11 +18,17 @@ async def get_image(id: int):
     return FileResponse(path)
 
 
-@app.get("/images/{label}/{id}")
-async def get_image_by_label(label: str, id: int):
+@app.get("/images/{label}/{number}")
+async def get_image_by_label(label: str, number: int):
     images = get_images_by_label(label)
-    path = images[id][1]
+    path = images[number][0]
     return FileResponse(path)
+
+
+@app.get("/image/get_id/{label}/{number}")
+async def get_image_id_by_label(label: str, number: int):
+    id = get_image_id(label, number)
+    return id
 
 
 @app.post("/image/{label}/")
@@ -40,12 +46,14 @@ async def delete_image_by_id(id: int):
     delete_image(path)
     delete_image_by_id(id)
 
+
 @app.delete("/images/{label}")
 async def delete_images_by_label(label: str):
     category = get_images_by_label(label)
     for path in category:
         delete_image(path[1])
     delete_category(label)
+
 
 @app.put("/image/{id}")
 async def update_image(id: int, image: str):
