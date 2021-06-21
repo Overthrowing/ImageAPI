@@ -35,17 +35,17 @@ async def post_image(label: str, image: str):
 
 
 @app.delete("/image/{id}")
-async def delete_image(id: int):
+async def delete_image_by_id(id: int):
     path = get_image_by_id(id)
     delete_image(path)
     delete_image_by_id(id)
 
-@app.delete("/image/{label}")
+@app.delete("/images/{label}")
 async def delete_images_by_label(label: str):
     category = get_images_by_label(label)
     for path in category:
         delete_image(path[1])
-    delete_category()
+    delete_category(label)
 
 @app.put("/image/{id}")
 async def update_image(id: int, image: str):
