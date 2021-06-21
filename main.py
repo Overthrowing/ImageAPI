@@ -9,7 +9,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Message": "Welcome to ImageAPI"}
+    return "Welcome to ImageAPI"
 
 
 @app.get("/image/{id}")
@@ -35,7 +35,19 @@ async def post_image(label: str, image: str):
 
 
 @app.delete("/image/{id}")
-async def get_image(id: int):
+async def delete_image(id: int):
     path = get_image_by_id(id)
     delete_image(path)
     delete_image_by_id(id)
+
+@app.delete("/image/{label}")
+async def delete_images_by_label(label: str):
+    category = get_images_by_label(label)
+    for path in category:
+        delete_image(path[1])
+    delete_category()
+
+@app.put("/image/{id}")
+async def update_image(id: int, image: str):
+    path = get_image_by_id(id)
+    to_png(path, image)

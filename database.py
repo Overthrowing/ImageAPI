@@ -30,3 +30,8 @@ def get_images_by_label(img_label):
 
 def delete_image_by_id(id):
     session.execute("DELETE * FROM images WHERE rowid=?", (id,))
+    db.commit()
+
+def delete_category(img_label):
+    session.execute("DELETE * FROM images WHERE label=?", (img_label,))
+    db.commit()
