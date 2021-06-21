@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+
 from database import *
 from utils import *
+
 app = FastAPI()
 
 
@@ -9,24 +11,31 @@ app = FastAPI()
 def read_root():
     return {"Message": "Welcome to ImageAPI"}
 
-@app.get("/images/{id}")
+
+@app.get("/image/{id}")
 async def get_image(id: int):
-    local_path = get(id)
-    path = f"images/{local_path}"
-    print(path)
+    path = get_image_by_id(id)
     return FileResponse(path)
+
 
 @app.get("/images/{label}/{id}")
 async def get_image_by_label(label: str, id: int):
-    local_path = get(id)
-    path = f"images/{local_path}"
+    images = get_images_by_label(label)
+    path = images[id][1]
     return FileResponse(path)
 
-@app.post("/image/{label}/")
-async def post_image(label: str, name: str, image: str):
-    path = f"images/name.png"
-    print(path)
-    to_png(path, image)
-    upload(label, f"{label}/dog.png")
-    return {"result": "Positive"}
 
+@app.post("/image/{label}/")
+async def post_image(label: str, image: str):
+    name = label + str(len(get_images_by_label(label)))
+    path = f"images/{name}.png"
+    to_png(path, image)
+    upload(label, path)
+    return {"result": "Success"}
+
+
+@app.delete("/image/{id}")
+async def get_image(id: int):
+    path = get_image_by_id(id)
+    delete_image(path)
+    delete_image_by_id(id)

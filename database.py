@@ -1,5 +1,5 @@
 import sqlite3
-
+from utils import delete_image
 
 db = sqlite3.connect(":memory:")
 session = db.cursor()
@@ -9,18 +9,21 @@ session.execute("""CREATE TABLE images(
                        image_path text)""")
 db.commit()
 
-session.execute("INSERT INTO images VALUES (:label, :image_path)", {"label": "dog", "image_path": "dog/dog.jpg"})
-
 def upload(label, path):
     session.execute("INSERT INTO images VALUES (:label, :path)", {"label": label, "path": path})
     db.commit()
 
-def get(id):
-    session.execute(f"SELECT * FROM images WHERE rowid == {id}")
-    local_path = session.fetchone()[1]
-    return local_path
 
-def get_by_label(label, id):
-    session.execute(f"SELECT * FROM images WHERE label == {label}")
+def get_image_by_id(id):
+    session.execute("SELECT * FROM images WHERE rowid=?", (id,))
+    path = session.fetchone()[1]
+    return path
+
+
+def get_images_by_label(img_label):
+    session.execute("SELECT * FROM images WHERE label=?", (img_label,))
     images = session.fetchall()
-    return images[id][1]
+    return images
+
+def delete_image_by_id(id):
+    session.execute("DELETE * FROM images WHERE rowid=?", (id,))
