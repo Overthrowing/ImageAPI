@@ -1,13 +1,16 @@
 import sqlite3
-from utils import delete_image
+import os
 
-db = sqlite3.connect(":memory:")
+DATABASE_NAME = "database.db"
+
+db = sqlite3.connect(DATABASE_NAME)
 session = db.cursor()
 
-session.execute("""CREATE TABLE images(
-                       label text,
-                       image_path text)""")
-db.commit()
+if not os.path.exists(DATABASE_NAME):
+    session.execute("""CREATE TABLE images(
+                           label text,
+                           image_path text)""")
+    db.commit()
 
 def upload(label, path):
     session.execute("INSERT INTO images VALUES (:label, :path)", {"label": label, "path": path})
