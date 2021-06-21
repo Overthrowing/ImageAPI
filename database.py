@@ -22,8 +22,12 @@ def upload(label, path):
 
 def get_image_by_id(id):
     session.execute("SELECT image_path, * FROM images WHERE rowid=?", (id,))
-    path = session.fetchone()[0]
-    return path
+    path = session.fetchone()
+    if path:
+        path = session.fetchone()[0]
+        return path
+    else:
+        return None
 
 
 def get_images_by_label(img_label):
@@ -35,7 +39,10 @@ def get_images_by_label(img_label):
 def get_image_id(img_label, id):
     session.execute("SELECT rowid, * FROM images WHERE label=?", (img_label,))
     images = session.fetchall()
-    return images[id][0]
+    if images:
+        return images[id][0]
+    else:
+        return None
 
 
 def delete_image_by_id(id):
