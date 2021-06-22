@@ -1,6 +1,8 @@
 import base64
 import os
+
 import colorific
+
 
 def to_png(location, img_data):
     with open(location, "wb") as file:
@@ -19,4 +21,3 @@ def generate_pallet(image_path, max_colors):
         return colors
     else:
         return None
-
