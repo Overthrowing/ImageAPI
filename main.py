@@ -4,7 +4,8 @@ from fastapi.responses import FileResponse
 from database import *
 from utils import *
 
-app = FastAPI()
+app = FastAPI(title="Image API",
+              description="An API where you can share labeled images and generate color pallets for images.")
 
 if not os.path.exists("images/"):
     os.mkdir("images")
@@ -42,7 +43,7 @@ async def get_image_id_by_label(
         number: int = Path(None, description="The number of the image in the category whose id should be returned.")):
     id = get_image_id(label, number)
     if id:
-        return id
+        return {"id": id}
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
@@ -55,7 +56,6 @@ async def post_image(label: str = Path(None, description="The label of the image
     path = f"images/{name}.png"
     to_png(path, image)
     upload(label, path)
-    return {"result": "Success"}
 
 
 @app.delete("/image/{id}")
@@ -89,7 +89,12 @@ async def update_image(id: int = Path(None, description="The id of the image tha
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
 
-@app.get("/colorpallet/{id}")
+@app.get("/colorpallet/{id}}")
 async def generate_colorpallet(
-        id: int = Path(None, description="The id of the image that a color pallet should be generated for.")):
-    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED)
+        id: int = Path(None, description="The id of the image that a color pallet should be generated for."),
+        max_num_colors: int = Query(None, description="The maximum number of colors that should be in the color pallet that is generated.")):
+        path = get_image_by_id(id)
+        if not path:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        colors = generate_pallet(path, max_num_colors)
+        return {"color_pallet": colors}

@@ -4,9 +4,9 @@ An API where you can share labeled images and generate color pallets for images.
 
 # Usage
 
-Run `uvicorn main:app` in the terminal.
+Run `uvicorn main:app --host 0.0.0.0 --port 80` in the terminal.
 
-Go to `https://<your url>/docs` to view the documentation.
+Go to `https://<your ip>/docs` to view the documentation.
 
 # How it works
 
