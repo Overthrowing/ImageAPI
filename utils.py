@@ -22,4 +22,3 @@ def generate_pallet(image_path, max_colors, rgb):
         colors = [colorific.rgb_to_hex(c.value) for c in pallet.colors]
 
     return colors
-
