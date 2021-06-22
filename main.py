@@ -92,10 +92,12 @@ async def update_image(id: int = Path(None, description="The id of the image tha
 @app.get("/colorpallet/{id}}")
 async def generate_colorpallet(
         id: int = Path(None, description="The id of the image that a color pallet should be generated for."),
-        max_num_colors: int = Query(None,
-                                    description="The maximum number of colors that should be in the color pallet that is generated.")):
+        max_num_colors: int = Query(5,
+                                    description="The maximum number of colors that should be in the color pallet that is generated."),
+        rgb: bool = Query(False,
+                          description="Should the color scheme be returned as a list of RGB values?")):
     path = get_image_by_id(id)
     if not path:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
-    colors = generate_pallet(path, max_num_colors)
+    colors = generate_pallet(path, max_num_colors, rgb)
     return {"color_pallet": colors}

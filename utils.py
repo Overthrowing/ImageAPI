@@ -14,10 +14,12 @@ def delete_image(path):
         os.remove(path)
 
 
-def generate_pallet(image_path, max_colors):
+def generate_pallet(image_path, max_colors, rgb):
     pallet = colorific.extract_colors(image_path, min_prominence=0.1, max_colors=max_colors)
-    colors = [colorific.rgb_to_hex(c.value) for c in pallet.colors]
-    if colors:
-        return colors
+    if rgb:
+        colors = [c.value for c in pallet.colors]
     else:
-        return None
+        colors = [colorific.rgb_to_hex(c.value) for c in pallet.colors]
+
+    return colors
+
