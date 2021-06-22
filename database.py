@@ -24,7 +24,7 @@ def get_image_by_id(id):
     session.execute("SELECT image_path, * FROM images WHERE rowid=?", (id,))
     path = session.fetchone()
     if path:
-        path = session.fetchone()[0]
+        path = path[0]
         return path
     else:
         return None
