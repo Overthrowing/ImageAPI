@@ -1,4 +1,7 @@
+
+import asyncio
 import base64
+import functools
 import os
 
 import colorific
@@ -24,3 +27,24 @@ def generate_pallet(image_path, max_colors, rgb):
         colors = [colorific.rgb_to_hex(c.value) for c in pallet.colors]
 
     return colors
+
+
+def run_in_executor(f):
+    """
+    Can be applied as a decorator to a function to make it async.
+    Example:
+
+    @run_in_executor
+    def foo(arg):  # Your wrapper for async use
+        asyncio.sleep(2)
+        return arg
+
+    async def test():
+        await foo("Hello")
+    """
+    @functools.wraps(f)
+    def inner(*args, **kwargs):
+        loop = asyncio.get_running_loop()
+        return loop.run_in_executor(None, lambda: f(*args, **kwargs))
+
+    return inner
