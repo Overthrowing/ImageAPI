@@ -15,7 +15,9 @@ def delete_image(path):
 
 
 def generate_pallet(image_path, max_colors, rgb):
-    pallet = colorific.extract_colors(image_path, min_prominence=0.1, max_colors=max_colors)
+    pallet = colorific.extract_colors(
+        image_path, min_prominence=0.1, max_colors=max_colors
+    )
     if rgb:
         colors = [c.value for c in pallet.colors]
     else:
