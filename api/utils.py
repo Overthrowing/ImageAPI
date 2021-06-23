@@ -29,12 +29,12 @@ def generate_pallet(image_path, max_colors, rgb):
     return colors
 
 
-def run_in_executor(f):
+def to_async(f):
     """
     Can be applied as a decorator to a function to make it async.
     Example:
 
-    @run_in_executor
+    @to_async
     def foo(arg):  # Your wrapper for async use
         asyncio.sleep(2)
         return arg
