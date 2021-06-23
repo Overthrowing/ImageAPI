@@ -12,12 +12,12 @@ if not os.path.exists("images/"):
 
 
 @app.get("/")
-def read_root():
+async def read_root():
     return "Welcome to ImageAPI, go to /docs to see the documentation for the API!"
 
 
 @app.get("/image/{id}")
-def get_image(id: int = Path(None, description="The id of the image that should be returned.")):
+async def get_image(id: int = Path(None, description="The id of the image that should be returned.")):
     path = get_image_by_id(id)
     if path:
         return FileResponse(path)
@@ -26,7 +26,7 @@ def get_image(id: int = Path(None, description="The id of the image that should 
 
 
 @app.get("/images/{label}/{number}")
-def get_image_by_label(label: str = Path(None, description="The label of the image that should be returned."),
+async def get_image_by_label(label: str = Path(None, description="The label of the image that should be returned."),
                              number: int = Path(0,
                                                 description="The number of the image in the category that should be returned.")):
     images = get_images_by_label(label)
@@ -38,7 +38,7 @@ def get_image_by_label(label: str = Path(None, description="The label of the ima
 
 
 @app.get("/image/get_id/{label}/{number}")
-def get_image_id_by_label(
+async def get_image_id_by_label(
         label: str = Path(None, description="The label of the image whose id should be returned."),
         number: int = Path(None, description="The number of the image in the category whose id should be returned.")):
     id = get_image_id(label, number)
