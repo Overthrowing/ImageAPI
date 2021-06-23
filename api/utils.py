@@ -1,4 +1,3 @@
-
 import asyncio
 import base64
 import functools
@@ -42,6 +41,7 @@ def to_async(f):
     async def test():
         await foo("Hello")
     """
+
     @functools.wraps(f)
     def inner(*args, **kwargs):
         loop = asyncio.get_running_loop()
