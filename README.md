@@ -4,9 +4,21 @@ An API where you can share labeled images and generate color pallets for images.
 
 # Usage
 
-Run `uvicorn main:app --host 0.0.0.0 --port 80` in the terminal.
+This project uses pipenv. Install `pipenv` if you already don't.
 
-Go to `https://<your ip>/docs` to view the documentation.
+**Install dependencies**
+
+```sh
+pipenv sync -d
+```
+
+**Run the server**
+
+```sh
+pipenv run start
+```
+
+You can access the docs at the main page.
 
 # How it works
 
