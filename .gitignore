@@ -6,11 +6,18 @@ env/
 venv/
 .venv
 
-# Ignore intellij Files (PyCharm)
+# Ignore Editor
 .idea
+.vscode
+.spyproject
+
+# Env files
+.env
 
 # Database
-database.db
+*.sqlite
+*.sqlite3
+*.db
 
 # Image Storage
 images/

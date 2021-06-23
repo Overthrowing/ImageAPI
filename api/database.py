@@ -6,9 +6,13 @@ DATABASE_NAME = "database.db"
 if not os.path.exists(DATABASE_NAME):
     db = sqlite3.connect(DATABASE_NAME)
     session = db.cursor()
-    session.execute("""CREATE TABLE images(
-                           label text,
-                           image_path text)""")
+    session.execute(
+        """CREATE TABLE images(
+                label text,
+                image_path text
+            )
+    """
+    )
     db.commit()
 
 db = sqlite3.connect(DATABASE_NAME)
@@ -16,7 +20,9 @@ session = db.cursor()
 
 
 def upload(label, path):
-    session.execute("INSERT INTO images VALUES (:label, :path)", {"label": label, "path": path})
+    session.execute(
+        "INSERT INTO images VALUES (:label, :path)", {"label": label, "path": path}
+    )
     db.commit()
 
 
